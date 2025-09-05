@@ -107,3 +107,24 @@ def test_checking_invalid_choice_id():
     with pytest.raises(Exception) as exception:
         question._check_valid_choice_id(1)
     assert str(exception.value) == f'Invalid choice id 1'  
+
+@pytest.fixture
+def add_choices():
+    question = Question(title='q1')
+    question.add_choice('a', False)
+    question.add_choice('b', True)
+    return question
+
+def test_choice_list_not_empty(add_choices):
+    assert add_choices._list_choice_ids != []
+
+def test_added_choices(add_choices):
+    choice = add_choices.choices[0]
+    choice2 = add_choices.choices[1]
+    assert len(add_choices.choices) == 2
+    assert choice.text == 'a'
+    assert choice2.text == 'b'
+    assert not choice.is_correct 
+    assert choice2.is_correct
+
+
